@@ -170,3 +170,61 @@ namespace ClubElections
                 }
             }
             Console.WriteLine();
+
+            int highestVoteCount = 0;
+            int winnerId = 0;
+            foreach (Student candidate in studentList)
+            {
+                int currentCandidateVotes = 0;
+                foreach (ElectionRecord record in recordList)
+                {
+                    if (record.PickedCandidateId == candidate.StudentId)
+                    {
+                        currentCandidateVotes = currentCandidateVotes + 1;
+                    }
+                }
+                if (currentCandidateVotes > highestVoteCount)
+                {
+                    highestVoteCount = currentCandidateVotes;
+                    winnerId = candidate.StudentId;
+                }
+            }
+            Console.WriteLine("13. Who won: " + getName(winnerId) + " with " + highestVoteCount + " votes");
+
+            Console.WriteLine();
+            Console.WriteLine("--- Operations ---");
+
+            Student isabel = new Student();
+            isabel.StudentId = 9;
+            isabel.FullName = "Isabel";
+            isabel.GradeLevel = 8;
+            isabel.Color = "Purple";
+            studentList.Add(isabel);
+            Console.WriteLine("14. Added Isabel");
+
+            ElectionRecord isabelVote = new ElectionRecord();
+            isabelVote.SubmitterId = 9;
+            isabelVote.PickedCandidateId = bethIdNumber;
+            recordList.Add(isabelVote);
+            Console.WriteLine("15. Isabel voted for: " + getName(getChoice(9)));
+
+            foreach (ElectionRecord record in recordList)
+            {
+                if (record.SubmitterId == 9)
+                {
+                    record.PickedCandidateId = 3;
+                }
+            }
+            Console.WriteLine("16. Isabel changed vote to: " + getName(getChoice(9)));
+
+            for (int i = recordList.Count - 1; i >= 0; i--)
+            {
+                if (recordList[i].SubmitterId == 9)
+                {
+                    recordList.RemoveAt(i);
+                }
+            }
+            Console.WriteLine("17. Isabel's vote removed. Choice is now: " + getName(getChoice(9)));
+        }
+    }
+}
