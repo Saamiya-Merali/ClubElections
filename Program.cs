@@ -49,3 +49,124 @@ namespace ClubElections
             }
             return "Unknown";
         }
+
+        static string getColor(int id)
+        {
+            foreach (Student individual in studentList)
+            {
+                if (individual.StudentId == id)
+                {
+                    if (individual.Color == null)
+                    {
+                        return "None";
+                    }
+                    else
+                    {
+                        return individual.Color;
+                    }
+                }
+            }
+            return "None";
+        }
+
+        static int getChoice(int id)
+        {
+            foreach (ElectionRecord record in recordList)
+            {
+                if (record.SubmitterId == id)
+                {
+                    return record.PickedCandidateId;
+                }
+            }
+            return 0;
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("1. Who is member 5: " + getName(5));
+            Console.WriteLine("2. What is their color: " + getColor(5));
+
+            Console.Write("3. Who likes Blue: ");
+            foreach (Student individual in studentList)
+            {
+                if (individual.Color == "Blue")
+                {
+                    Console.Write(individual.FullName + " ");
+                }
+            }
+            Console.WriteLine();
+
+            Console.Write("4. Who has no color: ");
+            foreach (Student individual in studentList)
+            {
+                if (individual.Color == null)
+                {
+                    Console.Write(individual.FullName + " ");
+                }
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("5. How many members: " + studentList.Count);
+
+            int gradeTenCount = 0;
+            foreach (Student individual in studentList)
+            {
+                if (individual.GradeLevel == 10)
+                {
+                    gradeTenCount = gradeTenCount + 1;
+                }
+            }
+            Console.WriteLine("6. How many in 10th grade: " + gradeTenCount);
+
+            int giaVoteId = getChoice(6);
+            Console.WriteLine("8. Who did member 6 vote for: " + getName(giaVoteId));
+
+            int bethIdNumber = 0;
+            foreach (Student individual in studentList)
+            {
+                if (individual.FullName == "Beth")
+                {
+                    bethIdNumber = individual.StudentId;
+                }
+            }
+
+            int bethVoteId = getChoice(bethIdNumber);
+            Console.WriteLine("9. Who did Beth vote for: " + getName(bethVoteId));
+
+            Console.Write("10. Who voted for Beth: ");
+            foreach (ElectionRecord record in recordList)
+            {
+                if (record.PickedCandidateId == bethIdNumber)
+                {
+                    Console.Write(getName(record.SubmitterId) + " ");
+                }
+            }
+            Console.WriteLine();
+
+            Console.Write("11. Who voted for themselves: ");
+            foreach (ElectionRecord record in recordList)
+            {
+                if (record.SubmitterId == record.PickedCandidateId)
+                {
+                    Console.Write(getName(record.SubmitterId) + " ");
+                }
+            }
+            Console.WriteLine();
+
+            Console.Write("12. Who did not vote: ");
+            foreach (Student individual in studentList)
+            {
+                bool hasVoted = false;
+                foreach (ElectionRecord record in recordList)
+                {
+                    if (record.SubmitterId == individual.StudentId)
+                    {
+                        hasVoted = true;
+                    }
+                }
+                if (hasVoted == false)
+                {
+                    Console.Write(individual.FullName + " ");
+                }
+            }
+            Console.WriteLine();
